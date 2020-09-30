@@ -10,9 +10,9 @@
       <span class="mobile-city-span"
             *ngIf="!isEditCity">{{ weather.name }}</span>
     </ng-container>
-    <div class="measurement-container">
+    <div class="measurement-container" *ngIf="!!(weather$ | async)">
       <span>&deg;</span>
-      <div class="buttons-container">
+      <div class="buttons-container" *ngIf="!!(weather$ | async)">
         <button class="measurement-btn"
                 [ngClass]="{'active-btn': measurement === 'C'}"
                 (click)="changeMeasurement('C')">C

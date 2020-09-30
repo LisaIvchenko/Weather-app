@@ -22,11 +22,16 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event): void {
-    window.innerWidth > 1023 ? this.isEditCity = true : this.isEditCity = false;
+    this.isEditCity = window.innerWidth > 1023;
   }
 
   public ngOnInit(): void {
-    window.innerWidth > 1023 ? this.isEditCity = true : this.isEditCity = false;
+    if (window.navigator.geolocation) {
+      window.navigator.geolocation.getCurrentPosition(this.successFunction, this.errorFunction);
+    } else {
+      alert('It seems like Geolocation, which is required for this page, is not enabled in your browser. Please use a browser which supports it.');
+    }
+    this.isEditCity = window.innerWidth > 1023;
     this.formCity = new FormGroup({
       city: new FormControl('', [
         Validators.required,
@@ -34,15 +39,23 @@ export class AppComponent implements OnInit {
     });
     this.getDefaultCity();
   }
+  public successFunction(position): void {
+    const lat = position.coords.latitude;
+    const long = position.coords.longitude;
+    console.log(lat, long);
+  }
+
+  public errorFunction(): void {
+    console.log('error');
+  }
 
   public getWeather(city: string): void {
     this.weather$ = this.weatherService.getCurrentWeather(city);
     this.weatherService.getCurrentWeather(city)
       .subscribe(
-        () => this.isEditCity = false,
+        () => this.isEditCity = window.innerWidth > 1023,
         () => this.getDefaultCity()
       );
-    console.log(this.weather$);
   }
 
   public changeMeasurement(mode: 'C' | 'F'): void {
@@ -57,4 +70,6 @@ export class AppComponent implements OnInit {
   public changeMobileEditMode(): void {
     this.isEditCity = true;
   }
+
+
 }

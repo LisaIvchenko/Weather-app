@@ -48,6 +48,4 @@ export class WeatherService {
     };
     return this.http.get<any>(`${this.config.url}${this.queryParams(queryParams)}`);
   }
-
-
 }
