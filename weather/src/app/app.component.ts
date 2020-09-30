@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
     console.log('error');
   }
 
-  public getWeather(city: string): void {
+  public getWeather(city?: string, lat?, lon?): void {
     this.weather$ = this.weatherService.getCurrentWeather(city);
     this.weatherService.getCurrentWeather(city)
       .subscribe(
@@ -70,6 +70,4 @@ export class AppComponent implements OnInit {
   public changeMobileEditMode(): void {
     this.isEditCity = true;
   }
-
-
 }

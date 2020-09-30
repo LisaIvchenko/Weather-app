@@ -26,7 +26,7 @@
     <div class="mobile-buttons">
       <button class="mobile-btn"
               (click)="changeMobileEditMode()">Сменить город</button>
-      <button class="get-location-btn mobile-btn">Мое местоположение</button>
+      <button class="get-location-btn mobile-btn" (click)="getWeather()">Мое местоположение</button>
     </div>
     <ng-container *ngIf="weather$ | async as weather; else loader">
       <div class="temp-container">
