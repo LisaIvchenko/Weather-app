@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="container-inner">
+    <form [formGroup]="formCity"
+          *ngIf="isEditCity"
+          (ngSubmit)="getWeather(formCity.controls.city.value)">
+      <input type="text" formControlName="city">
+      <button class="submit-btn">OK</button>
+    </form>
+    <ng-container *ngIf="weather$ | async as weather">
+      <span class="mobile-city-span"
+            *ngIf="!isEditCity">{{ weather.name }}</span>
+    </ng-container>
+    <div class="measurement-container">
+      <span>&deg;</span>
+      <div class="buttons-container">
+        <button class="measurement-btn"
+                [ngClass]="{'active-btn': measurement === 'C'}"
+                (click)="changeMeasurement('C')">C
+        </button>
+        <button class="measurement-btn"
+                [ngClass]="{'active-btn': measurement === 'F'}"
+                (click)="changeMeasurement('F')">F
+        </button>
+      </div>
+    </div>
+    <div class="mobile-buttons">
+      <button class="mobile-btn"
+              (click)="changeMobileEditMode()">Сменить город</button>
+      <button class="get-location-btn mobile-btn">Мое местоположение</button>
+    </div>
+    <ng-container *ngIf="weather$ | async as weather; else loader">
+      <div class="temp-container">
+        <div class="temp-container-inner">
+          <img src="assets/{{ weather.weather[0].icon | icon }}"
+               [alt]="weather.weather[0].description" class="weather-img">
+          <span class="degrees-span">{{ weather.main.temp | measurement : measurement | number : '1.0-0' }}&deg;</span>
+        </div>
+        <p class="temp-description">{{ weather.weather[0].description }}</p>
+      </div>
+      <div class="info-container">
+        <section class="info-section">
+          <h2>Ветер</h2>
+          <span class="info-value"><b>{{ weather.wind.speed }}</b> м/c, {{ weather.wind.deg | windDirection }}</span>
+        </section>
+        <section class="info-section">
+          <h2>Давление</h2>
+          <span class="info-value"><b>{{ weather.main.pressure }}</b> мм рт. ст.</span>
+        </section>
+        <section class="info-section">
+          <h2>Влажность</h2>
+          <span class="info-value"><b>{{ weather.main.humidity }}%</b></span>
+        </section>
+        <section class="info-section">
+          <h2>Ощущается как</h2>
+          <span
+            class="info-value"><b>{{ weather.main.feels_like | measurement : measurement | number : '1.0-0'  }}&deg;</b></span>
+        </section>
+      </div>
+    </ng-container>
+  </div>
+  <ng-template #loader>
+    <app-preloader></app-preloader>
+  </ng-template>
+</div>

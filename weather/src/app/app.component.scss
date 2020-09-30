@@ -1,0 +1,245 @@
+* {
+  box-sizing: border-box;
+}
+
+:focus {
+  outline: none;
+}
+
+@mixin responsive($screen-width) {
+  @media (max-width: #{$screen-width}) {
+    @content;
+  }
+}
+
+button {
+  cursor: pointer;
+}
+
+.container {
+  background: #498CEC;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Avenir, sans-serif;
+  color: #fff;
+
+  @include responsive(1023px) {
+    align-items: flex-start;
+  }
+}
+
+.container-inner {
+  max-width: 1366px;
+  width: 100%;
+  height: 1024px;
+  padding: 81px 75px 122px 96px;
+  display: grid;
+
+  @include responsive(1023px) {
+    padding: 19px 38px 41px 19px;
+    grid-template-rows: fit-content(100%);
+  }
+}
+
+form {
+  width: 579px;
+  height: 97px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  overflow-y: hidden;
+
+  @include responsive(1023px) {
+    width: 100%;
+    height: 50px;
+  }
+}
+
+input {
+  height: inherit;
+  border: 0;
+  border-radius: 8px;
+  width: inherit;
+  padding-left: 32px;
+  font-size: 30px;
+
+  @include responsive(1023px) {
+    width: calc(100% - 100px);
+  }
+}
+
+.submit-btn {
+  height: inherit;
+  background: transparent;
+  border: 0;
+  color: #1086FF;
+  font-size: 30px;
+  padding-right: 29px;
+  margin: 0 0 0 auto;
+  cursor: pointer;
+}
+
+.measurement-container {
+  display: flex;
+  grid-column: 2/3;
+  justify-content: flex-end;
+  animation: opacityAppear .4s forwards;
+
+  @include responsive(1023px) {
+    height: 29px;
+  }
+
+  span {
+    padding-right: 8px;
+    opacity: 0.4;
+    font-size: 18px;
+  }
+}
+
+.buttons-container {
+  height: 29px;
+  border: 1px solid #FFFFFF;
+  box-sizing: border-box;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 77px;
+}
+
+.measurement-btn {
+  height: inherit;
+  width: 50%;
+  border: 0;
+  color: rgba(255, 255, 255, 0.6);
+  background: transparent;
+}
+
+.active-btn {
+  background: rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.info-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  grid-column: 1/3;
+  animation: opacityAppear .4s forwards;
+
+  @include responsive(1023px) {
+    flex-wrap: wrap;
+  }
+}
+
+.info-section {
+  flex-basis: 50%;
+}
+
+h2 {
+  font-size: 18px;
+  font-weight: normal;
+  color: #fff;
+  opacity: 0.6;
+}
+
+.info-value {
+  color: #fff;
+  font-size: 25px;
+}
+
+.degrees-span {
+  font-size: 120px;
+
+  @include responsive(1023px) {
+    font-size: 90px;
+  }
+}
+
+.temp-container {
+  grid-column: 1/3;
+  animation: opacityAppear .35s forwards;
+}
+
+.temp-container-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.temp-description {
+  font-size: 18px;
+  margin: 0;
+  text-align: center;
+
+  @include responsive(414px) {
+    font-size: 12px;
+  }
+}
+
+.weather-img {
+  height: 200px;
+  width: 200px;
+  object-fit: contain;
+
+  @include responsive(1023px) {
+    height: 100px;
+    width: 100px;
+  }
+}
+
+@keyframes opacityAppear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.mobile-city-span {
+  display: none;
+  font-size: 30px;
+  font-weight: lighter;
+  grid-row: 1;
+  grid-column: 1/2;
+  height: 32px;
+
+  @include responsive(1023px) {
+    display: inline;
+  }
+}
+
+.mobile-buttons {
+  grid-row: 2;
+  grid-column: 1/3;
+  height: 32px;
+  margin-top: 18px;
+  width: 100%;
+  display: none;
+  justify-content: space-between;
+
+  @include responsive(1023px) {
+    display: flex;
+  }
+}
+
+.mobile-btn {
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 15px;
+  padding: 0;
+}
+
+.get-location-btn {
+  padding-left: 24px;
+  background: 0 50% transparent url("../assets/location.svg") no-repeat;
+}
