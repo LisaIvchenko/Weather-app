@@ -39,22 +39,23 @@ export class WeatherService {
       .join('&')}`;
   }
 
-  public getCurrentWeather(city?: string, lat?: number, lon?: number): Observable<IResponse> {
-    let queryParams = {
+  public getCurrentWeather(city: string): Observable<IResponse> {
+    const queryParams = {
+      q: city,
       appid: this.config.key,
       lang: this.config.lang,
       units: 'metric',
     };
-    if (!!city) {
-      queryParams = {...queryParams, ...{q: city}};
-    }
-    if (!!lat && !!lon) {
-      const coordinates = {
-        lat,
-        lon
-      };
-      queryParams = {...queryParams, ...coordinates};
-    }
+    return this.http.get<any>(`${this.config.url}${this.queryParams(queryParams)}`);
+  }
+  public getWeatherByLocation(lat: number, lon: number): Observable<IResponse> {
+    const queryParams = {
+      appid: this.config.key,
+      lang: this.config.lang,
+      units: 'metric',
+      lat,
+      lon
+    };
     return this.http.get<any>(`${this.config.url}${this.queryParams(queryParams)}`);
   }
 }

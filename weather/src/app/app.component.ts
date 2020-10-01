@@ -1,7 +1,7 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {IResponse, WeatherService} from './weather.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -21,17 +21,12 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event): void {
-    this.isEditCity = window.innerWidth > 1023;
+  onResize(): void {
+    this.isEditCity = innerWidth > 1023;
   }
 
   public ngOnInit(): void {
-    if (window.navigator.geolocation) {
-      window.navigator.geolocation.getCurrentPosition(this.successFunction, this.errorFunction);
-    } else {
-      alert('It seems like Geolocation, which is required for this page, is not enabled in your browser. Please use a browser which supports it.');
-    }
-    this.isEditCity = window.innerWidth > 1023;
+    this.isEditCity = innerWidth > 1023;
     this.formCity = new FormGroup({
       city: new FormControl('', [
         Validators.required,
@@ -39,23 +34,32 @@ export class AppComponent implements OnInit {
     });
     this.getDefaultCity();
   }
-  public successFunction(position): void {
-    const lat = position.coords.latitude;
-    const long = position.coords.longitude;
-    console.log(lat, long);
-  }
 
-  public errorFunction(): void {
-    console.log('error');
-  }
-
-  public getWeather(city?: string, lat?, lon?): void {
+  public getWeather(city?: string): void {
     this.weather$ = this.weatherService.getCurrentWeather(city);
     this.weatherService.getCurrentWeather(city)
       .subscribe(
         () => this.isEditCity = window.innerWidth > 1023,
         () => this.getDefaultCity()
       );
+  }
+
+  public getWeatherByLocation(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(this.successFunction.bind(this), this.errorFunction);
+    } else {
+      this.errorFunction();
+    }
+  }
+
+  public successFunction(position): void {
+    const lat = position.coords.latitude;
+    const long = position.coords.longitude;
+    this.weather$ = this.weatherService.getWeatherByLocation(lat, long);
+  }
+
+  public errorFunction(): void {
+    alert('It seems like Geolocation, which is required for this page, is not enabled in your browser. Please use a browser which supports it.');
   }
 
   public changeMeasurement(mode: 'C' | 'F'): void {
