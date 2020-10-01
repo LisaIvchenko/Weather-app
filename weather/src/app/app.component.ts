@@ -1,7 +1,7 @@
-import {Component, HostListener, OnInit} from '@angular/core';
-import {IResponse, WeatherService} from './weather.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Observable, Subject} from 'rxjs';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { IResponse, WeatherService } from './weather.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',

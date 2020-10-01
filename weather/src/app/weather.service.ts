@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {config} from './config';
-import {Observable} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { config } from './config';
+import { Observable } from 'rxjs';
 
 export interface IResponse {
   main: {
